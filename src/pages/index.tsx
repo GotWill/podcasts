@@ -83,7 +83,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                                   src={episode.thumbnail}
                                   alt={episode.title}
                                   objectFit="cover"
-                                /> 
+                                />
                               </td>
                               <td>
                                 < Link href={`/episodes/${episode.id}`} >
