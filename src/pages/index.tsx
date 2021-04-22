@@ -83,7 +83,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                                   src={episode.thumbnail}
                                   alt={episode.title}
                                   objectFit="cover"
-                                />
+                                /> 
                               </td>
                               <td>
                                 < Link href={`/episodes/${episode.id}`} >
@@ -123,9 +123,9 @@ export  const getStaticProps: GetStaticProps = async () => {
       title: episode.title,
       thumbnail: episode.thumbnail,
       members: episode.members,
-      published_At: format(parseISO(episode.published_at),'d MMM yy', {locale: ptBR} ),
-      durantion: Number(episode.file.durantion),
-      durattionAsString: ConvertDurationToString(Number(episode.file.durantion)),
+      published_at: format(parseISO(episode. published_at),'d MMM yy', {locale: ptBR} ),
+      durantion: Number(episode.file.duration),
+      durattionAsString: ConvertDurationToString(Number(episode.file.duration)),
       description:  episode.description,
       url: episode.file.url,
       
