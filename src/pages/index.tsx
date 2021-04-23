@@ -1,4 +1,5 @@
-
+import { useContext } from 'react';
+import { PlayerContext } from '../contexts/PlayerContexts';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,11 +27,12 @@ type HomeProps ={
 }
 
 export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
+  const {play} = useContext(PlayerContext);
 
   return (
     <div className={styles.homepage}>
           <section className={styles.latestEpisodes}>
-              <h2>Ultimos Lancamnetos</h2>
+              <h2>Ultimos Lancamnetos </h2>
               <ul>
                 {LatesEpisodes.map(episode =>{
                   return(
@@ -49,7 +51,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                         <span>{episode.published_at}</span>
                         <span>{episode.durattionAsString}</span>
                       </div>
-                        <button type="button">
+                        <button type="button" onClick={() => play(episode) }>
                           <img src="/play-green.svg" alt="tocar episodio"/>
                         </button>
                     </li>

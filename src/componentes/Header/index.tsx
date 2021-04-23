@@ -3,7 +3,7 @@ import format from 'date-fns/format';
 import ptBr from  'date-fns/locale/pt-BR';
 
 import  styles from './styles.module.scss' ;
-import Link from 'next/link'
+import Link from 'next/link';
 
 export  function Header(){
 
