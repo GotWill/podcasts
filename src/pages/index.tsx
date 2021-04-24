@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { PlayerContext } from '../contexts/PlayerContexts';
+import { PlayerContext, usePlayer } from '../contexts/PlayerContexts';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,14 +27,14 @@ type HomeProps ={
 }
 
 export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
-  const {play} = useContext(PlayerContext);
-
+  const {PlayList} = usePlayer();
+  const episodeList = [... LatesEpisodes,...AllEpisodes]
   return (
     <div className={styles.homepage}>
           <section className={styles.latestEpisodes}>
               <h2>Ultimos Lancamnetos </h2>
               <ul>
-                {LatesEpisodes.map(episode =>{
+                {LatesEpisodes.map((episode, index )=>{
                   return(
                     <li key={episode.id}> 
                       <Image
@@ -51,7 +51,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                         <span>{episode.published_at}</span>
                         <span>{episode.durattionAsString}</span>
                       </div>
-                        <button type="button" onClick={() => play(episode) }>
+                        <button type="button" onClick={() => PlayList(episodeList, index) }>
                           <img src="/play-green.svg" alt="tocar episodio"/>
                         </button>
                     </li>
@@ -75,7 +75,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                      </tr>                   
                     </thead>
                     <tbody>
-                      {AllEpisodes.map(episode=>{
+                      {AllEpisodes.map((episode, index)=>{
                         return (
                           <tr key={episode.id}>
                               <td style={{ width: 72  }}> 
@@ -95,7 +95,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                               <td>{episode.members}</td>
                               <td style={{ width: 100 }}>{episode.published_at}</td>
                               <td>{episode.durattionAsString}</td>
-                              <button type="button">
+                              <button type="button" onClick={() => PlayList(episodeList, index + LatesEpisodes.length)}>
                                 <img src="/play-green.svg" alt="tocar episodio"/>
                               </button>
                           </tr>
