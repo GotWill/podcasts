@@ -1,4 +1,4 @@
-import { useContext, useRef , useEffect} from 'react';
+import { useContext, useRef , useEffect, useState} from 'react';
 import { PlayerContext, usePlayer } from '../../contexts/PlayerContexts';
 import  styles from './styles.module.scss' ;
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import { ConvertDurationToString } from '../../utils/ConvertDurationToString';
 
 export  function Player(){
     const audioRef = useRef<HTMLAudioElement>(null)
+    const [progress , SetProgress] = useState(0)
     const {episodeList,
          currentEpisodeIndex ,
           isPlaying,
@@ -36,6 +37,19 @@ export  function Player(){
 
         }
     },[isPlaying])
+
+    function SetupProgressListener() {
+        audioRef.current.currentTime = 0;
+
+        audioRef.current.addEventListener('timeupdate', () =>{
+            SetProgress( Math.floor(audioRef.current.currentTime));
+        });
+    }
+
+    function handleSeek(amount: number) {
+        audioRef.current.currentTime = amount;
+        SetProgress(amount)
+    }
 
 
     return (
@@ -65,26 +79,34 @@ export  function Player(){
           
             <footer className={!episode ? styles.empty: ''}>
                 <div className={styles.progress}>
-                    <span>00:00</span>
+                    <span>{ConvertDurationToString(progress)}</span>
                     <div className={styles.slider}>
                        {episode ? (
-                           <Slider trackStyle={{ backgroundColor:  '#0d361'}}
-                           railStyle={{  backgroundColor: '#9f75ff' }} 
-                           handleStyle={{ borderColor:  '#0d361',  borderWidth: 4 }}/>
-                       ) : (
+                           <Slider 
+                                max ={episode.duration}
+                                value={progress}
+                                onChange={handleSeek}
+                                trackStyle={{ backgroundColor:  '#0d361'}}
+                                railStyle={{  backgroundColor: '#9f75ff' }} 
+                                handleStyle={{ borderColor:  '#0d361',  borderWidth: 4 }}
+                            />
+                        ) : (
                         <div className={styles.empatySlider} />
                        )}
                     </div>
-                    <span>{ConvertDurationToString(episode?.duration ?? 0)}</span>
+                    <span>{ConvertDurationToString(episode ?.duration ?? 0)}</span>
                 </div>
 
                 {episode && (
-                    <audio  src={episode.url}
-                    ref={audioRef}
-                    autoPlay
-                    loop={isLooping}
-                    onPlay={()=> SetPlayingState(true)}
-                    onPause={()=>SetPlayingState(false)}/>
+                    <audio  
+                        src={episode.url}
+                        ref={audioRef}
+                        autoPlay
+                        loop={isLooping}
+                        onPlay={()=> SetPlayingState(true)}
+                        onPause={()=>SetPlayingState(false)}
+                        onLoadedMetadata={SetupProgressListener}
+                    />
                 )}
 
                 <div className={styles.buttons}>
