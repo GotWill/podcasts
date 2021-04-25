@@ -18,7 +18,7 @@ type Episode = {
     published_at: string;
     duration: number;
     thumbnail: string;
-    durattionAsString: string;
+    durationAsString: string;
     url: string;
     description: string;
 }
@@ -29,6 +29,7 @@ type EpisodeProps = {
 
 export default function Episode({ episode } : EpisodeProps) {
     const {play} = usePlayer()
+    
     return (
         <div className={styles.episode}>
             <div className={styles.thumbnailContainer}>
@@ -51,7 +52,7 @@ export default function Episode({ episode } : EpisodeProps) {
                 <h1>{episode.title}</h1>
                 <span>{episode.members}</span>
                 <span>{episode.published_at}</span>
-                <span>{episode.durattionAsString}</span>
+                <span>{episode.durationAsString}</span>
 
             </header>
 
@@ -61,6 +62,7 @@ export default function Episode({ episode } : EpisodeProps) {
 }
  
 export const getStaticPaths: GetStaticPaths = async () => {
+
     const { data } = await api.get("episodes",{
         params : {
           _limit: 2,
@@ -69,6 +71,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         }
     })
         const paths = data.map(episode =>{
+            console.log(episode)
             return {
                 params : {
                     slug: episode.id
@@ -90,9 +93,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
             title: data.title,
             thumbnail: data.thumbnail,
             members: data.members,
-            published_t: format(parseISO(data.published_at),'d MMM yy', {locale: ptBR} ),
+            published_at: format(parseISO(data.published_at),'d MMM yy', {locale: ptBR} ),
             duration: Number(data.file.duration),
-            durattionAsString: ConvertDurationToString(Number(data.file.duration)),
+            durationAsString: ConvertDurationToString(Number(data.file.duration)),
             description:  data.description,
             url: data.file.url,
             

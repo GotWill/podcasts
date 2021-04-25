@@ -17,7 +17,7 @@ type Episode ={
   published_at: string;
   duration: number;
   thumbnail: string;
-  durattionAsString: string;
+  durationAsString: string;
   url: string;
 }
 
@@ -49,7 +49,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                         </Link>
                         <p>{episode.members}</p>
                         <span>{episode.published_at}</span>
-                        <span>{episode.durattionAsString}</span>
+                        <span>{episode.durationAsString}</span>
                       </div>
                         <button type="button" onClick={() => PlayList(episodeList, index) }>
                           <img src="/play-green.svg" alt="tocar episodio"/>
@@ -94,7 +94,7 @@ export  default function Home( { LatesEpisodes, AllEpisodes }: HomeProps) {
                               </td>
                               <td>{episode.members}</td>
                               <td style={{ width: 100 }}>{episode.published_at}</td>
-                              <td>{episode.durattionAsString}</td>
+                              <td>{episode.durationAsString}</td>
                               <button type="button" onClick={() => PlayList(episodeList, index + LatesEpisodes.length)}>
                                 <img src="/play-green.svg" alt="tocar episodio"/>
                               </button>
@@ -126,8 +126,8 @@ export  const getStaticProps: GetStaticProps = async () => {
       thumbnail: episode.thumbnail,
       members: episode.members,
       published_at: format(parseISO(episode. published_at),'d MMM yy', {locale: ptBR} ),
-      durantion: Number(episode.file.duration),
-      durattionAsString: ConvertDurationToString(Number(episode.file.duration)),
+      duration: Number(episode.file.duration),
+      durationAsString: ConvertDurationToString(Number(episode.file.duration)),
       description:  episode.description,
       url: episode.file.url,
       

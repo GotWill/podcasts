@@ -94,15 +94,15 @@ export  function Player(){
                         <div className={styles.empatySlider} />
                        )}
                     </div>
-                    <span>{ConvertDurationToString(episode ?.duration ?? 0)}</span>
+                    <span>{ConvertDurationToString(episode?.duration ?? 0)}</span>
                 </div>
 
                 {episode && (
                     <audio  
                         src={episode.url}
                         ref={audioRef}
-                        autoPlay
                         loop={isLooping}
+                        autoPlay
                         onPlay={()=> SetPlayingState(true)}
                         onPause={()=>SetPlayingState(false)}
                         onLoadedMetadata={SetupProgressListener}
